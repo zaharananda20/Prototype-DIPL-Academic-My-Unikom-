@@ -1,0 +1,1687 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Academic UNIKOM</title>
+  <style>
+    :root{
+      --bg:#f4f6f9;
+      --sidebar:#1e293b;
+      --sidebarText:#cbd5e1;
+      --card:#ffffff;
+      --text:#334155;
+      --muted:#64748b;
+      --accent:#0284c7;
+      --accent2:#f59e0b;
+      --border:#e2e8f0;
+      --success:#10b981;
+      --danger:#ef4444;
+      --warning:#f59e0b;
+      --fontSize:16px;
+    }
+
+    [data-theme="dark"]{
+      --bg:#0f172a;
+      --sidebar:#020617;
+      --sidebarText:#94a3b8;
+      --card:#1e293b;
+      --text:#f1f5f9;
+      --muted:#94a3b8;
+      --accent:#38bdf8;
+      --border:#334155;
+    }
+
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
+
+    body{
+      font-family:Arial, sans-serif;
+      font-size:var(--fontSize);
+      background:var(--bg);
+      color:var(--text);
+      display:flex;
+      min-height:100vh;
+    }
+
+    button,input,select{
+      font:inherit;
+    }
+
+    button{
+      cursor:pointer;
+    }
+
+    aside{
+      width:270px;
+      background:var(--sidebar);
+      color:var(--sidebarText);
+      min-height:100vh;
+      flex-shrink:0;
+      overflow-y:auto;
+      position:sticky;
+      top:0;
+    }
+
+    .brand{
+      padding:22px;
+      color:#fff;
+      font-weight:700;
+      border-bottom:1px solid rgba(255,255,255,.12);
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+
+    .brand span{
+      color:var(--accent2);
+    }
+
+    .sidebar-menu{
+      list-style:none;
+      padding:14px 10px 26px;
+    }
+
+    .menu-title{
+      color:#64748b;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+      font-size:.74rem;
+      font-weight:700;
+      margin:18px 10px 8px;
+    }
+
+    .menu-item{
+      width:100%;
+      border:0;
+      background:transparent;
+      color:var(--sidebarText);
+      min-height:46px;
+      padding:12px 12px;
+      border-radius:10px;
+      text-align:left;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-bottom:5px;
+      font-weight:600;
+    }
+
+    .menu-item:hover,
+    .menu-item.active{
+      background:rgba(255,255,255,.08);
+      color:#fff;
+    }
+
+    .ai-highlight{
+      border:1px dashed var(--accent2);
+      border-radius:10px;
+      padding:4px;
+      margin-bottom:6px;
+    }
+
+    .ai-tag{
+      margin-left:auto;
+      background:var(--accent2);
+      color:#111827;
+      font-size:.65rem;
+      font-weight:800;
+      padding:2px 6px;
+      border-radius:5px;
+    }
+
+    .submenu{
+      display:none;
+      list-style:none;
+      padding-left:18px;
+    }
+
+    .submenu.show{
+      display:block;
+    }
+
+    main{
+      flex:1;
+      min-width:0;
+    }
+
+    header{
+      background:var(--card);
+      border-bottom:1px solid var(--border);
+      padding:16px 26px;
+      display:flex;
+      gap:14px;
+      align-items:center;
+      flex-wrap:wrap;
+      position:sticky;
+      top:0;
+      z-index:20;
+    }
+
+    .search-wrap{
+      position:relative;
+      flex:1;
+      min-width:260px;
+    }
+
+    #search{
+      width:100%;
+      padding:12px 16px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      background:var(--bg);
+      color:var(--text);
+      outline:none;
+    }
+
+    .search-results{
+      position:absolute;
+      left:0;
+      right:0;
+      top:48px;
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:8px;
+      box-shadow:0 18px 35px rgba(0,0,0,.18);
+      display:none;
+      z-index:50;
+    }
+
+    .search-results button{
+      width:100%;
+      text-align:left;
+      border:0;
+      background:transparent;
+      color:var(--text);
+      padding:11px;
+      border-radius:9px;
+      font-weight:700;
+    }
+
+    .search-results button:hover{
+      background:var(--bg);
+    }
+
+    .top-actions{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+
+    .icon-btn,
+    .main-btn,
+    .outline-btn{
+      border:1px solid var(--border);
+      background:var(--card);
+      color:var(--text);
+      min-height:44px;
+      padding:10px 14px;
+      border-radius:10px;
+      font-weight:800;
+    }
+
+    .icon-btn{
+      width:48px;
+      padding:0;
+      border-radius:50%;
+    }
+
+    .main-btn{
+      background:var(--accent);
+      color:white;
+      border-color:var(--accent);
+    }
+
+    .yellow-btn{
+      background:var(--accent2);
+      color:#111827;
+      border-color:var(--accent2);
+    }
+
+    .student-badge{
+      border-left:4px solid var(--accent);
+      background:var(--bg);
+      padding:8px 14px;
+      border-radius:10px;
+      font-size:.82rem;
+    }
+
+    .content{
+      max-width:1220px;
+      margin:0 auto;
+      padding:28px;
+      display:flex;
+      flex-direction:column;
+      gap:22px;
+    }
+
+    .page-note{
+      background:rgba(245,158,11,.12);
+      border:1px dashed var(--accent2);
+      padding:13px 15px;
+      border-radius:10px;
+      line-height:1.5;
+      font-size:.9rem;
+    }
+
+    .banner{
+      background:#fee2e2;
+      color:#991b1b;
+      border:1px solid #fca5a5;
+      padding:13px;
+      border-radius:10px;
+      font-weight:800;
+      display:none;
+      text-align:center;
+    }
+
+    [data-theme="dark"] .banner{
+      background:#7f1d1d;
+      color:#fecaca;
+      border-color:#991b1b;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:22px;
+      box-shadow:0 4px 6px rgba(0,0,0,.04);
+    }
+
+    .card-title{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:800;
+      font-size:1.08rem;
+      margin-bottom:16px;
+    }
+
+    .overview-grid{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(160px,1fr));
+      gap:14px;
+    }
+
+    .overview-card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:18px;
+      min-height:130px;
+      text-align:left;
+      color:var(--text);
+    }
+
+    .overview-card:hover{
+      border-color:var(--accent);
+      transform:translateY(-2px);
+    }
+
+    .label{
+      font-size:.78rem;
+      color:var(--muted);
+      text-transform:uppercase;
+      font-weight:800;
+      letter-spacing:.04em;
+    }
+
+    .value{
+      font-size:1.35rem;
+      font-weight:900;
+      margin:8px 0;
+    }
+
+    .desc{
+      font-size:.84rem;
+      color:var(--muted);
+      line-height:1.45;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 9px;
+      border-radius:999px;
+      font-size:.74rem;
+      font-weight:900;
+      margin-top:10px;
+    }
+
+    .pill.warn{
+      background:rgba(245,158,11,.15);
+      color:#b45309;
+    }
+
+    .pill.info{
+      background:rgba(2,132,199,.12);
+      color:var(--accent);
+    }
+
+    .pill.ok{
+      background:rgba(16,185,129,.14);
+      color:var(--success);
+    }
+
+    .privacy-grid{
+      display:flex;
+      gap:18px;
+      flex-wrap:wrap;
+    }
+
+    .privacy-item{
+      background:var(--bg);
+      padding:16px;
+      border-radius:10px;
+      min-width:240px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+
+    .privacy-data{
+      font-size:1.35rem;
+      font-weight:900;
+    }
+
+    .stepper{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      margin:22px 0 26px;
+    }
+
+    .step{
+      flex:1;
+      text-align:center;
+      position:relative;
+      color:var(--muted);
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:12px 8px;
+      background:var(--bg);
+    }
+
+    .step.active{
+      background:rgba(2,132,199,.12);
+      color:var(--text);
+      border-color:var(--accent);
+    }
+
+    .step.done{
+      background:rgba(16,185,129,.12);
+      border-color:var(--success);
+      color:var(--success);
+    }
+
+    .step-circle{
+      width:34px;
+      height:34px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      margin:0 auto 7px;
+      background:var(--card);
+      border:1px solid var(--border);
+      font-weight:900;
+    }
+
+    .table-tools{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:center;
+      flex-wrap:wrap;
+      margin-bottom:12px;
+    }
+
+    .filter-input{
+      border:1px solid var(--border);
+      background:var(--bg);
+      color:var(--text);
+      border-radius:8px;
+      padding:10px 12px;
+      min-width:230px;
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:760px;
+    }
+
+    th,td{
+      padding:13px;
+      border:1px solid var(--border);
+      text-align:left;
+      font-size:.9rem;
+    }
+
+    th{
+      background:var(--bg);
+      font-weight:900;
+    }
+
+    .table-wrap{
+      overflow-x:auto;
+    }
+
+    .badge-ok{
+      background:rgba(16,185,129,.15);
+      color:var(--success);
+      padding:6px 10px;
+      border-radius:7px;
+      font-weight:900;
+      display:inline-block;
+      font-size:.8rem;
+    }
+
+    .badge-warn{
+      background:rgba(245,158,11,.15);
+      color:#b45309;
+      padding:6px 10px;
+      border-radius:7px;
+      font-weight:900;
+      display:inline-block;
+      font-size:.8rem;
+    }
+
+    .footer-note{
+      font-size:.86rem;
+      color:var(--muted);
+      margin-top:12px;
+      line-height:1.5;
+    }
+
+    .quick-row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:16px;
+    }
+
+    .result-box{
+      display:none;
+      margin-top:16px;
+      background:rgba(16,185,129,.1);
+      border-left:4px solid var(--success);
+      padding:14px;
+      border-radius:8px;
+      line-height:1.5;
+    }
+
+    .access-grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:12px;
+    }
+
+    .access-box{
+      background:var(--bg);
+      border:1px solid var(--border);
+      padding:14px;
+      border-radius:12px;
+    }
+
+    .access-box h4{
+      margin-bottom:10px;
+    }
+
+    .chat-widget{
+      position:fixed;
+      right:24px;
+      bottom:24px;
+      z-index:90;
+      display:flex;
+      flex-direction:column;
+      align-items:flex-end;
+      gap:12px;
+    }
+
+    .chat-panel{
+      display:none;
+      width:350px;
+      height:420px;
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:14px;
+      box-shadow:0 20px 35px rgba(0,0,0,.2);
+      overflow:hidden;
+      flex-direction:column;
+    }
+
+    .chat-header{
+      background:var(--accent2);
+      color:#111827;
+      padding:14px;
+      font-weight:900;
+      display:flex;
+      justify-content:space-between;
+    }
+
+    .chat-body{
+      flex:1;
+      padding:14px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      overflow:auto;
+      font-size:.9rem;
+    }
+
+    .msg{
+      padding:10px 12px;
+      border-radius:9px;
+      line-height:1.45;
+      max-width:86%;
+    }
+
+    .msg.bot{
+      background:var(--bg);
+      align-self:flex-start;
+    }
+
+    .msg.user{
+      background:var(--accent);
+      color:white;
+      align-self:flex-end;
+    }
+
+    .chat-footer{
+      display:flex;
+      gap:8px;
+      padding:12px;
+      border-top:1px solid var(--border);
+    }
+
+    .chat-footer input{
+      flex:1;
+      border:1px solid var(--border);
+      border-radius:8px;
+      padding:9px;
+      background:var(--bg);
+      color:var(--text);
+    }
+
+    .chat-trigger{
+      width:62px;
+      height:62px;
+      border-radius:50%;
+      border:0;
+      background:var(--accent2);
+      color:#111827;
+      font-size:1.5rem;
+      box-shadow:0 12px 20px rgba(0,0,0,.25);
+    }
+
+    .modal-overlay,
+    .loading-overlay{
+      display:none;
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.55);
+      z-index:100;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+    }
+
+    .modal{
+      background:var(--card);
+      color:var(--text);
+      border-radius:14px;
+      padding:24px;
+      width:min(520px,100%);
+      border:1px solid var(--border);
+      box-shadow:0 20px 45px rgba(0,0,0,.25);
+    }
+
+    .modal h3{
+      margin-bottom:10px;
+    }
+
+    .modal p{
+      color:var(--muted);
+      line-height:1.55;
+      margin-bottom:16px;
+    }
+
+    .spinner{
+      width:52px;
+      height:52px;
+      border-radius:50%;
+      border:5px solid rgba(255,255,255,.25);
+      border-top-color:var(--accent2);
+      animation:spin 1s linear infinite;
+    }
+
+    .loading-content{
+      color:#fff;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:14px;
+      font-weight:900;
+    }
+
+    @keyframes spin{
+      to{
+        transform:rotate(360deg);
+      }
+    }
+
+    .toast{
+      display:none;
+      position:fixed;
+      right:24px;
+      bottom:100px;
+      background:#111827;
+      color:#fff;
+      padding:13px 17px;
+      border-radius:10px;
+      z-index:120;
+      max-width:380px;
+      font-weight:700;
+    }
+
+    @media(max-width:900px){
+      body{
+        display:block;
+      }
+
+      aside{
+        width:100%;
+        min-height:auto;
+        position:relative;
+      }
+
+      header{
+        position:relative;
+      }
+
+      .overview-grid,
+      .access-grid{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .stepper{
+        flex-direction:column;
+      }
+
+      .chat-panel{
+        width:min(350px,calc(100vw - 30px));
+      }
+    }
+
+    @media(max-width:560px){
+      .overview-grid,
+      .access-grid{
+        grid-template-columns:1fr;
+      }
+
+      .content{
+        padding:16px;
+      }
+
+      header{
+        padding:14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <aside>
+    <div class="brand">🎓 My Academic <span>UNIKOM</span></div>
+
+    <ul class="sidebar-menu">
+      <li>
+        <button class="menu-item active" id="btn-menu-dashboard" onclick="gantiKontenAkademik('dashboard')">
+          🏠 Dashboard
+        </button>
+      </li>
+
+      <div class="menu-title">Layanan Mahasiswa</div>
+
+      <li class="ai-highlight">
+        <button class="menu-item" onclick="toggleSubmenu('krs-sub')">
+          📝 KRS & Perwalian <span class="ai-tag">AI</span>
+        </button>
+
+        <ul id="krs-sub" class="submenu show">
+          <li>
+            <button class="menu-item" id="btn-menu-krs" onclick="gantiKontenAkademik('krs')">
+              • KRS Semester
+            </button>
+          </li>
+          <li>
+            <button class="menu-item" id="btn-menu-wali" onclick="gantiKontenAkademik('wali')">
+              • Dosen Wali
+            </button>
+          </li>
+        </ul>
+      </li>
+
+      <li>
+        <button class="menu-item" onclick="toggleSubmenu('akademik-sub')">
+          📚 Informasi Akademik ▾
+        </button>
+
+        <ul id="akademik-sub" class="submenu">
+          <li>
+            <button class="menu-item" id="btn-menu-jadwal" onclick="gantiKontenAkademik('jadwal')">
+              • Jadwal Kuliah
+            </button>
+          </li>
+          <li>
+            <button class="menu-item" id="btn-menu-nilai" onclick="gantiKontenAkademik('nilai')">
+              • Riwayat Nilai & IPK
+            </button>
+          </li>
+        </ul>
+      </li>
+
+      <li>
+        <button class="menu-item" onclick="toggleSubmenu('keuangan-sub')">
+          💳 Layanan Keuangan ▾
+        </button>
+
+        <ul id="keuangan-sub" class="submenu">
+          <li>
+            <button class="menu-item" id="btn-menu-tagihan" onclick="gantiKontenAkademik('tagihan')">
+              • Tagihan Perkuliahan
+            </button>
+          </li>
+        </ul>
+      </li>
+
+      <div class="menu-title">Menu My Academic Asli</div>
+
+      <li><button class="menu-item" id="btn-menu-profile" onclick="gantiKontenAkademik('profile')">👤 Profile</button></li>
+      <li><button class="menu-item" id="btn-menu-kurikulum" onclick="gantiKontenAkademik('kurikulum')">🧩 Kurikulum</button></li>
+      <li><button class="menu-item" id="btn-menu-rencana" onclick="gantiKontenAkademik('rencana')">✅ Pengisian Rencana Studi</button></li>
+      <li><button class="menu-item" id="btn-menu-kelas" onclick="gantiKontenAkademik('kelas')">👥 Pengisian Kelas</button></li>
+      <li><button class="menu-item" id="btn-menu-kehadiran" onclick="gantiKontenAkademik('kehadiran')">📋 Kehadiran Perkuliahan</button></li>
+      <li><button class="menu-item" id="btn-menu-kuesioner" onclick="gantiKontenAkademik('kuesioner')">📊 Kuesioner</button></li>
+      <li><button class="menu-item" id="btn-menu-wisuda" onclick="gantiKontenAkademik('wisuda')">🎓 Syarat Wisuda</button></li>
+      <li><button class="menu-item" id="btn-menu-aktivitas" onclick="gantiKontenAkademik('aktivitas')">🏃 Aktivitas Kemahasiswaan</button></li>
+    </ul>
+  </aside>
+
+  <main>
+    <header>
+      <div class="search-wrap">
+        <input
+          id="search"
+          placeholder="Cari fitur: KRS, jadwal, nilai, kuesioner..."
+          oninput="handleSearchInput()"
+          onkeydown="handleSearchKey(event)"
+        />
+        <div class="search-results" id="search-results"></div>
+      </div>
+
+      <div class="top-actions">
+        <button class="icon-btn" onclick="changeFontSize('inc')" title="Perbesar teks">A+</button>
+        <button class="icon-btn" onclick="changeFontSize('dec')" title="Perkecil teks">A-</button>
+        <button class="icon-btn" onclick="toggleTheme()" title="Mode gelap/terang">🌙</button>
+        <button class="icon-btn" onclick="toggleAllSensor()" title="Sembunyikan/tampilkan data sensitif">👁</button>
+
+        <div class="student-badge">
+          <b>Zahara Nanda Alvianti</b><br>
+          <span>10123325 | Teknik Informatika-S1</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="content">
+      <div class="banner" id="banner-masa-studi">
+        ⏰ Masa studi Anda tersisa 9 semester
+      </div>
+
+      <section class="overview-grid" id="dashboard-overview">
+        <button class="overview-card" onclick="gantiKontenAkademik('rencana')">
+          <div class="label">Status Rencana Studi</div>
+          <div class="value">Menunggu Penguncian</div>
+          <div class="desc">Klik untuk membuka alur pengisian rencana studi.</div>
+          <span class="pill warn">Perlu Aksi</span>
+        </button>
+
+        <button class="overview-card" onclick="gantiKontenAkademik('jadwal')">
+          <div class="label">Jadwal Hari Ini</div>
+          <div class="value">2 Kuliah</div>
+          <div class="desc">Komputasi Awan dan Desain Interaksi Perangkat Lunak.</div>
+          <span class="pill info">Lihat Jadwal</span>
+        </button>
+
+        <button class="overview-card" onclick="gantiKontenAkademik('kehadiran')">
+          <div class="label">Kehadiran</div>
+          <div class="value">92%</div>
+          <div class="desc">Presensi semester berjalan masih aman.</div>
+          <span class="pill ok">Aman</span>
+        </button>
+
+        <button class="overview-card" onclick="gantiKontenAkademik('kuesioner')">
+          <div class="label">Kuesioner</div>
+          <div class="value">2 Belum</div>
+          <div class="desc">Evaluasi perkuliahan perlu diselesaikan.</div>
+          <span class="pill warn">Belum Lengkap</span>
+        </button>
+      </section>
+
+      <section class="card" id="wali-box" style="display:none;">
+        <div class="card-title">⚠️ Catatan Konsultasi & Pengesahan</div>
+        <p>
+          "Halo Zahara, pengisian KRS kamu untuk kelas Desain Interaksi sudah saya tinjau.
+          Silakan langsung lakukan penguncian permanen."
+        </p>
+      </section>
+
+      <section class="card">
+        <div class="card-title">🛡 Privasi Finansial & Prestasi Akademik</div>
+
+        <div class="privacy-grid">
+          <div class="privacy-item">
+            <div>
+              <div class="label">IPS Terakhir</div>
+              <div class="privacy-data sensor-data" data-value="3.82">3.82</div>
+            </div>
+            <button class="icon-btn" onclick="toggleOneSensor(this)">👁</button>
+          </div>
+
+          <div class="privacy-item">
+            <div>
+              <div class="label">Total Tagihan Keuangan</div>
+              <div class="privacy-data sensor-data" data-value="Rp 8.500.000">Rp 8.500.000</div>
+            </div>
+            <button class="icon-btn" onclick="toggleOneSensor(this)">👁</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-title">🧭 <span id="section-title">Alur Pengisian KRS Online Sesi Utama</span></div>
+
+        <div class="stepper" id="stepper">
+          <div class="step done">
+            <div class="step-circle">1</div>
+            <b>Pilih Matkul</b>
+          </div>
+
+          <div class="step active" id="step-core">
+            <div class="step-circle">2</div>
+            <b>Validasi Kelas</b>
+          </div>
+
+          <div class="step" id="step-final">
+            <div class="step-circle">3</div>
+            <b>Selesai</b>
+          </div>
+        </div>
+
+        <div class="table-tools">
+          <p id="table-caption" style="font-weight:800;">Mata Kuliah Pilihan Semester Ini:</p>
+          <input class="filter-input" id="table-filter" placeholder="Filter isi tabel..." oninput="filterTable()" />
+        </div>
+
+        <div class="table-wrap">
+          <table id="main-table">
+            <thead>
+              <tr id="table-head"></tr>
+            </thead>
+            <tbody id="table-body"></tbody>
+          </table>
+        </div>
+
+        <div class="footer-note" id="table-note"></div>
+
+        <div class="quick-row">
+          <button class="main-btn" id="main-action" onclick="prosesSimpanKRS()">
+            💾 Simpan Kelas KRS Permanen
+          </button>
+          <button class="outline-btn" onclick="openInfoModal('Bantuan Kontekstual', 'Jika kamu membutuhkan bantuan silahkan tanyakan kepada AI chat bot')">
+            ❔ Bantuan
+          </button>
+        </div>
+
+        <div class="result-box" id="keuangan-history">
+          <b>Riwayat Pembayaran:</b><br>
+          #TX-992103 | 02 Februari 2026 | Rp 8.500.000 | Berhasil<br>
+          #TX-884102 | 05 September 2025 | Rp 8.500.000 | Berhasil
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-title">👥 Smart Social Schedule Matcher</div>
+        <p class="desc">
+          Cari kecocokan slot waktu kosong bersama teman lintas kelas tanpa menampilkan detail jadwal pribadi.
+        </p>
+
+        <div class="quick-row">
+          <input class="filter-input" id="friend-nim" placeholder="Masukkan NIM teman. Contoh: 10123044" />
+          <button class="main-btn yellow-btn" onclick="matchSchedule()">✨ Deteksi Waktu Luang</button>
+        </div>
+
+        <div id="match-result" class="result-box"></div>
+      </section>
+
+      <section class="card">
+        <div class="card-title">♿ Accessibility Panel</div>
+
+        <div class="access-grid">
+          <div class="access-box">
+            <h4>Ukuran Teks</h4>
+            <button class="outline-btn" onclick="changeFontSize('dec')">A-</button>
+            <button class="outline-btn" onclick="changeFontSize('inc')">A+</button>
+          </div>
+
+          <div class="access-box">
+            <h4>Mode Tampilan</h4>
+            <button class="outline-btn" onclick="toggleTheme()">Terang/Gelap</button>
+          </div>
+
+          <div class="access-box">
+            <h4>Privasi</h4>
+            <button class="outline-btn" onclick="toggleAllSensor()">Sensor Data</button>
+          </div>
+
+          <div class="access-box">
+            <h4>Navigasi Keyboard</h4>
+            <p class="desc">Gunakan Tab, Enter, Space, dan Esc.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="chat-widget">
+      <div class="chat-panel" id="chat-panel">
+        <div class="chat-header">
+          <span>🤖 Asisten Academic AI</span>
+          <button onclick="toggleChat()" style="background:transparent;border:0;font-weight:900;">—</button>
+        </div>
+
+        <div class="chat-body" id="chat-body">
+          <div class="msg bot">
+            Hai Zahara! Tanyakan KRS, nilai, jadwal, tagihan, kuesioner, wisuda, atau kehadiran.
+          </div>
+        </div>
+
+        <div class="chat-footer">
+          <input id="chat-input" placeholder="Tanya sesuatu..." onkeydown="if(event.key==='Enter')sendMessage()" />
+          <button class="main-btn" onclick="sendMessage()">➜</button>
+        </div>
+      </div>
+
+      <button class="chat-trigger" onclick="toggleChat()">💬</button>
+    </div>
+  </main>
+
+  <div class="loading-overlay" id="loading">
+    <div class="loading-content">
+      <div class="spinner"></div>
+      <div id="loading-text">Memproses data...</div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="info-modal">
+    <div class="modal">
+      <h3 id="modal-title">Informasi</h3>
+      <p id="modal-desc">Detail informasi.</p>
+      <div class="quick-row" style="justify-content:flex-end;">
+        <button class="main-btn" onclick="closeInfoModal()">Mengerti</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="payment-modal">
+    <div class="modal">
+      <h3>💳 Gerbang Pembayaran Kuliah</h3>
+      <p>Pilih bank rekanan untuk membuat nomor Virtual Account resmi.</p>
+
+      <div class="privacy-item" style="margin-bottom:12px;">
+        <b>Total Tagihan</b>
+        <b>Rp 8.500.000</b>
+      </div>
+
+      <select id="bank-select" class="filter-input" style="width:100%;">
+        <option value="90022">Bank Mandiri</option>
+        <option value="82411">BNI</option>
+        <option value="70012">BRI</option>
+        <option value="10123">BCA</option>
+      </select>
+
+      <div id="va-box" class="result-box"></div>
+
+      <div class="quick-row" style="justify-content:flex-end;">
+        <button class="outline-btn" onclick="closePaymentModal()">Oke!</button>
+        <button class="main-btn yellow-btn" id="va-btn" onclick="generateVA()">Dapatkan Nomor VA</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    let currentFont = 16;
+    let currentPage = "dashboard";
+
+    const pages = [
+      ["dashboard","Dashboard"],
+      ["krs","KRS Semester"],
+      ["wali","Konten Dosen Wali"],
+      ["jadwal","Jadwal Kuliah"],
+      ["nilai","Riwayat Nilai & IPK"],
+      ["tagihan","Tagihan Perkuliahan"],
+      ["profile","Profile"],
+      ["kurikulum","Kurikulum"],
+      ["rencana","Pengisian Rencana Studi"],
+      ["kelas","Pengisian Kelas"],
+      ["kehadiran","Kehadiran Perkuliahan"],
+      ["kuesioner","Kuesioner"],
+      ["wisuda","Syarat Wisuda"],
+      ["aktivitas","Aktivitas Kemahasiswaan"]
+    ];
+
+    const tableData = {
+      dashboard: {
+        title:"Alur Pengisian KRS Online Sesi Utama",
+        caption:"Mata Kuliah Pilihan Semester Ini:",
+        stepper:true,
+        action:true,
+        actionText:"💾 Simpan Kelas KRS Permanen",
+        head:["Kode","Nama Mata Kuliah","SKS","Kelas","Status Bentrok"],
+        rows:[
+          ["IF-DIPL2","Desain Interaksi Perangkat Lunak","3","DIPL 2","<span class='badge-ok'>Aman</span>"]
+        ],
+        note:""
+      },
+
+      krs: {
+        title:"Alur Pengisian KRS Online Sesi Utama",
+        caption:"Mata Kuliah Pilihan Semester Ini:",
+        stepper:true,
+        action:true,
+        actionText:"💾 Simpan Kelas KRS Permanen",
+        head:["Kode","Nama Mata Kuliah","SKS","Kelas","Status Bentrok"],
+        rows:[
+          ["IF-DIPL2","Desain Interaksi Perangkat Lunak","3","DIPL 2","<span class='badge-ok'>Aman</span>"],
+          ["IF-RF1","Rekayasa Fitur","3","RF 1","<span class='badge-ok'>Aman</span>"]
+        ],
+        note:"Sistem memvalidasi total SKS, prasyarat, dan bentrok jadwal sebelum data dikunci."
+      },
+
+      wali: {
+        title:"Lembar Kendali Perwalian & Persetujuan KRS",
+        caption:"Status Persetujuan Mata Kuliah oleh Dosen Wali:",
+        stepper:false,
+        action:false,
+        head:["Mata Kuliah","SKS","Dosen Pengampu","Rekomendasi Wali","Status"],
+        rows:[
+          ["DIPL","3","Alif Finandhita, S.Kom, M.T","Sesuai peminatan UI/UX","<span class='badge-ok'>Approved</span>"],
+          ["Komputasi Awan","3","Iskandar Ikbal, S.T., M.Kom","Wajib semester ini","<span class='badge-ok'>Approved</span>"]
+        ],
+        note:"Nama Dosen Wali: Richi Dwi Agustia, S.Kom., M.Kom | NIP: 41077026002"
+      },
+
+      jadwal: {
+        title:"Jadwal Perkuliahan Aktif Terkini",
+        caption:"Daftar Hari & Jam Kelas Anda:",
+        stepper:false,
+        action:false,
+        head:["Hari & Jam","Mata Kuliah","SKS","Ruangan","Jenis Kelas"],
+        rows:[
+          ["Senin 08:00","Pemrograman Berorientasi Objek","3","Ruang 4.02","Teori"],
+          ["Rabu 10:00","Desain Interaksi Perangkat Lunak","3","Lab Komputer 2","Praktikum"],
+          ["Jumat 13:00","Keamanan Big Data","3","Ruang 5.03","Teori"]
+        ],
+        note:"Klik bantuan AI bila ada jadwal yang berubah atau ruangan belum muncul."
+      },
+
+      nilai: {
+        title:"Index Prestasi Semester",
+        caption:"Riwayat Kinerja Akademik Mahasiswa:",
+        stepper:false,
+        action:false,
+        head:["Semester","Jumlah SKS","Jumlah Mata Kuliah","IPS","A","B","C","D","E","T"],
+        rows:[
+          ["20231","19","8","3.78","7","1","0","0","0","0"],
+          ["20232","18","6","3.65","5","1","0","0","0","0"],
+          ["20241","19","7","3.85","6","1","0","0","0","0"],
+          ["20242","19","7","3.82","5","2","0","0","0","0"]
+        ],
+        note:"Data nilai dapat disensor melalui tombol privasi ketika dibuka di ruang publik."
+      },
+
+      tagihan: {
+        title:"Informasi Biaya Kuliah Teknik Informatika-S1",
+        caption:"Rincian Angsuran & Tagihan Aktif:",
+        stepper:false,
+        action:false,
+        head:["Semester","Komponen Biaya","Total Tagihan","Status","Aksi"],
+        rows:[
+          [
+            "20252",
+            "BPS + Kuliah Pokok",
+            "<b style='color:var(--accent)'>Rp 8.500.000</b>",
+            "<span class='badge-warn'>Belum Dibayar</span>",
+            "<button class='main-btn yellow-btn' onclick='openPaymentModal()'>Bayar Sekarang</button>"
+          ]
+        ],
+        note:"Informasi Keuangan silakan datang ke Student Admisi Bagian Keuangan Loket 1,2,3 di Smart Building UNIKOM."
+      },
+
+      profile: {
+        title:"Profile Mahasiswa",
+        caption:"Biodata dan informasi akun mahasiswa:",
+        stepper:false,
+        action:true,
+        actionText:"✏️ Perbarui Profile",
+        head:["Data","Informasi","Status"],
+        rows:[
+          ["Nama","Zahara Nanda Alvianti","<span class='badge-ok'>Aktif</span>"],
+          ["NIM","10123325","Terverifikasi"],
+          ["Program Studi","Teknik Informatika-S1","Aktif"],
+          ["Kelas","Informatika 9","Semester Berjalan"],
+          ["Email","10123325@mahasiswa.unikom.ac.id","Aktif"]
+        ],
+        note:"Perubahan data tertentu tetap membutuhkan validasi akademik."
+      },
+
+      kurikulum: {
+        title:"Kurikulum Program Studi",
+        caption:"Daftar mata kuliah berdasarkan kurikulum:",
+        stepper:false,
+        action:true,
+        actionText:"🧠 Pilih Kurikulum Otomatis",
+        head:["Semester","Mata Kuliah","SKS","Status","Aksi"],
+        rows:[
+          [
+            "Semester 4",
+            "Rekayasa Fitur",
+            "3",
+            "Wajib",
+            "<button class='outline-btn' onclick='openInfoModal(\"Detail Kurikulum\",\"Mata kuliah wajib sesuai kurikulum Teknik Informatika.\")'>Detail</button>"
+          ],
+          [
+            "Semester 5",
+            "Desain Interaksi Perangkat Lunak",
+            "3",
+            "Wajib",
+            "<button class='outline-btn' onclick='openInfoModal(\"Detail Kurikulum\",\"Mata kuliah fokus pada UX, usability, accessibility, dan prototyping.\")'>Detail</button>"
+          ],
+          [
+            "Semester 5",
+            "Keamanan Big Data",
+            "3",
+            "Pilihan",
+            "<button class='outline-btn' onclick='openInfoModal(\"Detail Kurikulum\",\"Mata kuliah pilihan untuk peminatan data dan keamanan.\")'>Detail</button>"
+          ]
+        ],
+        note:"Sistem otomatis menyesuaikan kurikulum berdasarkan prodi dan tahun masuk."
+      },
+
+      rencana: {
+        title:"Pengisian Rencana Studi",
+        caption:"Daftar rencana mata kuliah semester berjalan:",
+        stepper:true,
+        action:true,
+        actionText:"💾 Simpan Rencana Studi",
+        head:["Pilih","Mata Kuliah","SKS","Prasyarat","Status"],
+        rows:[
+          ["<input type='checkbox' checked>","DIPL","3","Terpenuhi","<span class='badge-ok'>Direkomendasikan</span>"],
+          ["<input type='checkbox' checked>","Rekayasa Fitur","3","Terpenuhi","<span class='badge-ok'>Direkomendasikan</span>"],
+          ["<input type='checkbox'>","Komputasi Awan","3","Terpenuhi","<span class='badge-warn'>Opsional</span>"]
+        ],
+        note:"Feedback sistem: prasyarat terpenuhi, total SKS aman, dan tidak ada bentrok jadwal."
+      },
+
+      kelas: {
+        title:"Pengisian Kelas",
+        caption:"Pilihan kelas tersedia dan kuota kelas:",
+        stepper:true,
+        action:true,
+        actionText:"🔒 Kunci Pilihan Kelas",
+        head:["Kelas","Mata Kuliah","Jadwal","Kuota","Status"],
+        rows:[
+          ["DIPL 2","Desain Interaksi Perangkat Lunak","Rabu 10:00","34/40","<span class='badge-ok'>Tersedia</span>"],
+          ["RF 1","Rekayasa Fitur","Senin 08:00","39/40","<span class='badge-warn'>Hampir Penuh</span>"],
+          ["KBD 2","Keamanan Big Data","Jumat 13:00","28/40","<span class='badge-ok'>Tersedia</span>"]
+        ],
+        note:"Tombol penguncian memberi loading state agar pengguna tahu data sedang diproses."
+      },
+
+      kehadiran: {
+        title:"Kehadiran Perkuliahan",
+        caption:"Rekap presensi mahasiswa per mata kuliah:",
+        stepper:false,
+        action:true,
+        actionText:"📝 Ajukan Koreksi Presensi",
+        head:["Mata Kuliah","Hadir","Izin/Sakit","Tanpa Keterangan","Persentase"],
+        rows:[
+          ["DIPL","12","1","0","<span class='badge-ok'>92%</span>"],
+          ["Rekayasa Fitur","11","1","0","<span class='badge-ok'>91%</span>"],
+          ["Keamanan Big Data","10","1","1","<span class='badge-warn'>83%</span>"]
+        ],
+        note:"Presensi diberi label teks dan warna agar mudah dibaca."
+      },
+
+      kuesioner: {
+        title:"Kuesioner Perkuliahan",
+        caption:"Status pengisian kuesioner evaluasi:",
+        stepper:false,
+        action:false,
+        head:["Mata Kuliah","Dosen","Status","Batas Waktu","Aksi"],
+        rows:[
+          [
+            "DIPL",
+            "Alif Finandhita, M.T.",
+            "<span class='badge-warn'>Belum Diisi</span>",
+            "31 Mei 2026",
+            "<button class='outline-btn' onclick='openInfoModal(\"Kuesioner\",\"Membuka form kuesioner perkuliahan.\")'>Isi</button>"
+          ],
+          [
+            "Rekayasa Fitur",
+            "Dosen RF",
+            "<span class='badge-ok'>Sudah Diisi</span>",
+            "31 Mei 2026",
+            "<button class='outline-btn' onclick='openInfoModal(\"Kuesioner\",\"Kuesioner sudah selesai diisi.\")'>Lihat</button>"
+          ]
+        ],
+        note:"Kuesioner dibuat lebih terlihat agar mahasiswa tidak melewatkan kewajiban evaluasi."
+      },
+
+      wisuda: {
+        title:"Syarat Wisuda",
+        caption:"Checklist kelayakan wisuda:",
+        stepper:false,
+        action:true,
+        actionText:"✅ Cek Kelayakan Wisuda",
+        head:["Persyaratan","Status","Keterangan"],
+        rows:[
+          ["SKS Minimal","<span class='badge-ok'>Terpenuhi</span>","Jumlah SKS sudah memenuhi syarat."],
+          ["Tidak Ada Nilai E","<span class='badge-ok'>Terpenuhi</span>","Tidak ditemukan nilai E."],
+          ["TA/Skripsi","<span class='badge-warn'>Belum Terdaftar</span>","Sistem memberi arahan lanjutan, bukan hanya akses terlarang."],
+          ["Administrasi","<span class='badge-warn'>Perlu Cek</span>","Cek tagihan pada menu keuangan."]
+        ],
+        note:"Jika belum memenuhi syarat, sistem menampilkan alasan dan solusi lanjutan."
+      },
+
+      aktivitas: {
+        title:"Aktivitas Kemahasiswaan",
+        caption:"Pencatatan organisasi, seminar, lomba, dan kepanitiaan:",
+        stepper:false,
+        action:true,
+        actionText:"➕ Tambah Aktivitas",
+        head:["Nama Aktivitas","Jenis","Status Validasi","Poin","Aksi"],
+        rows:[
+          [
+            "HMIF",
+            "Organisasi",
+            "<span class='badge-ok'>Tervalidasi</span>",
+            "20",
+            "<button class='outline-btn' onclick='openInfoModal(\"Aktivitas\",\"Detail aktivitas organisasi mahasiswa.\")'>Detail</button>"
+          ],
+          [
+            "Seminar UI/UX",
+            "Seminar",
+            "<span class='badge-ok'>Tervalidasi</span>",
+            "5",
+            "<button class='outline-btn' onclick='openInfoModal(\"Aktivitas\",\"Detail seminar dan sertifikat.\")'>Detail</button>"
+          ],
+          [
+            "Lomba Desain Aplikasi",
+            "Kompetisi",
+            "<span class='badge-warn'>Menunggu</span>",
+            "15",
+            "<button class='outline-btn' onclick='openInfoModal(\"Aktivitas\",\"Status validasi masih diproses.\")'>Detail</button>"
+          ]
+        ],
+        note:"Informasi panjang dipadatkan menjadi tabel dan tombol detail."
+      }
+    };
+
+    function toggleSubmenu(id){
+      document.getElementById(id)?.classList.toggle("show");
+    }
+
+    function gantiKontenAkademik(page){
+      currentPage = page;
+      const data = tableData[page] || tableData.dashboard;
+
+      document.querySelectorAll(".menu-item").forEach(btn => btn.classList.remove("active"));
+
+      const btn = document.getElementById("btn-menu-" + page);
+      if(btn) btn.classList.add("active");
+
+      if(page === "dashboard"){
+        document.getElementById("btn-menu-dashboard")?.classList.add("active");
+      }
+
+      document.getElementById("section-title").textContent = data.title;
+      document.getElementById("table-caption").textContent = data.caption;
+
+      document.getElementById("table-head").innerHTML =
+        data.head.map(item => `<th>${item}</th>`).join("");
+
+      document.getElementById("table-body").innerHTML =
+        data.rows.map(row => `<tr>${row.map(col => `<td>${col}</td>`).join("")}</tr>`).join("");
+
+      document.getElementById("table-note").innerHTML = data.note || "";
+
+      document.getElementById("stepper").style.display = data.stepper ? "flex" : "none";
+
+      const action = document.getElementById("main-action");
+      action.style.display = data.action ? "inline-flex" : "none";
+      action.innerHTML = data.actionText || "💾 Simpan Kelas KRS Permanen";
+
+      action.onclick = function(){
+        if(["krs","rencana","kelas","dashboard"].includes(currentPage)){
+          prosesSimpanKRS();
+        } else {
+          openInfoModal(data.title, "Aksi utama berhasil disimulasikan");
+        }
+      };
+
+      document.getElementById("banner-masa-studi").style.display = page === "tagihan" ? "block" : "none";
+      document.getElementById("keuangan-history").style.display = page === "tagihan" ? "block" : "none";
+      document.getElementById("wali-box").style.display = page === "wali" ? "block" : "none";
+      document.getElementById("search-results").style.display = "none";
+      document.getElementById("table-filter").value = "";
+
+      showToast("Membuka halaman: " + (pages.find(item => item[0] === page)?.[1] || page));
+    }
+
+    function filterTable(){
+      const query = document.getElementById("table-filter").value.toLowerCase();
+
+      document.querySelectorAll("#table-body tr").forEach(row => {
+        row.style.display = row.textContent.toLowerCase().includes(query) ? "" : "none";
+      });
+    }
+
+    function handleSearchInput(){
+      const query = document.getElementById("search").value.trim().toLowerCase();
+      const box = document.getElementById("search-results");
+
+      if(!query){
+        box.style.display = "none";
+        return;
+      }
+
+      const result = pages.filter(item =>
+        item[1].toLowerCase().includes(query) || item[0].includes(query)
+      ).slice(0,8);
+
+      box.innerHTML = result.length
+        ? result.map(item => `<button onclick="gantiKontenAkademik('${item[0]}')">🔎 ${item[1]}</button>`).join("")
+        : "<button>Tidak ada hasil. Coba: KRS, jadwal, nilai.</button>";
+
+      box.style.display = "block";
+    }
+
+    function handleSearchKey(event){
+      if(event.key === "Enter"){
+        const query = document.getElementById("search").value.trim().toLowerCase();
+        const found = pages.find(item =>
+          item[1].toLowerCase().includes(query) || item[0].includes(query)
+        );
+
+        if(found){
+          gantiKontenAkademik(found[0]);
+        } else {
+          openInfoModal(
+            "Pencarian Tidak Ditemukan",
+            "Coba gunakan kata kunci: KRS, jadwal, nilai, tagihan, kuesioner, atau wisuda."
+          );
+        }
+      }
+    }
+
+    function openInfoModal(title, desc){
+      document.getElementById("modal-title").innerHTML = title;
+      document.getElementById("modal-desc").innerHTML = desc;
+      document.getElementById("info-modal").style.display = "flex";
+    }
+
+    function closeInfoModal(){
+      document.getElementById("info-modal").style.display = "none";
+    }
+
+    function showLoading(text){
+      document.getElementById("loading-text").textContent = text;
+      document.getElementById("loading").style.display = "flex";
+    }
+
+    function hideLoading(){
+      document.getElementById("loading").style.display = "none";
+    }
+
+    function prosesSimpanKRS(){
+      showLoading("AI sedang memvalidasi dan menyimpan data KRS...");
+
+      setTimeout(() => {
+        hideLoading();
+
+        document.getElementById("step-core")?.classList.add("done");
+        document.getElementById("step-core")?.classList.remove("active");
+        document.getElementById("step-final")?.classList.add("active");
+
+        openInfoModal(
+          "KRS Berhasil Dikunci",
+          "Pilihan kelas kuliah berhasil diverifikasi, disimpan, dan menunggu/tercatat pada dosen wali."
+        );
+      }, 1200);
+    }
+
+    function openPaymentModal(){
+      document.getElementById("va-box").style.display = "none";
+      document.getElementById("va-btn").style.display = "inline-flex";
+      document.getElementById("payment-modal").style.display = "flex";
+    }
+
+    function closePaymentModal(){
+      document.getElementById("payment-modal").style.display = "none";
+    }
+
+    function generateVA(){
+      const prefix = document.getElementById("bank-select").value;
+
+      showLoading("Menghubungkan ke API Bank Rekanan...");
+
+      setTimeout(() => {
+        hideLoading();
+
+        const va = prefix + "10123325";
+        const box = document.getElementById("va-box");
+
+        box.innerHTML = `
+          <b>Nomor Virtual Account:</b><br>
+          <span style="font-size:1.5rem;font-weight:900;color:#d97706;">${va}</span><br><br>
+          Masuk ke mobile banking, pilih Virtual Account, masukkan nomor VA,
+          lalu konfirmasi pembayaran atas nama Zahara Nanda Alvianti.
+        `;
+
+        box.style.display = "block";
+        document.getElementById("va-btn").style.display = "none";
+      }, 1000);
+    }
+
+    function toggleTheme(){
+      const isDark = document.body.getAttribute("data-theme") === "dark";
+
+      if(isDark){
+        document.body.removeAttribute("data-theme");
+      } else {
+        document.body.setAttribute("data-theme","dark");
+      }
+
+      showToast(isDark ? "Mode terang aktif." : "Mode gelap aktif.");
+    }
+
+    function changeFontSize(action){
+      if(action === "inc" && currentFont < 22){
+        currentFont += 2;
+      }
+
+      if(action === "dec" && currentFont > 12){
+        currentFont -= 2;
+      }
+
+      document.documentElement.style.setProperty("--fontSize", currentFont + "px");
+      showToast("Ukuran teks diperbarui.");
+    }
+
+    function toggleOneSensor(button){
+      const data = button.closest(".privacy-item").querySelector(".sensor-data");
+
+      if(data.textContent.includes("•")){
+        data.textContent = data.dataset.value;
+        button.textContent = "👁";
+      } else {
+        data.textContent = "•••••••";
+        button.textContent = "🙈";
+      }
+    }
+
+    function toggleAllSensor(){
+      document.querySelectorAll(".sensor-data").forEach(data => {
+        data.textContent = data.textContent.includes("•") ? data.dataset.value : "•••••••";
+      });
+
+      showToast("Mode sensor data diperbarui.");
+    }
+
+    function matchSchedule(){
+      const nim = document.getElementById("friend-nim").value.trim();
+
+      if(!nim){
+        openInfoModal("NIM Belum Diisi", "Silakan masukkan NIM teman terlebih dahulu.");
+        return;
+      }
+
+      showLoading("Mendeteksi kesamaan waktu kosong lintas kelas...");
+
+      setTimeout(() => {
+        hideLoading();
+
+        const box = document.getElementById("match-result");
+
+        box.innerHTML = `
+          <b>Hasil Analisis Jadwal Bersama NIM ${nim}:</b><br>
+          Waktu luang bersama ditemukan pada <b>Kamis, 13.00 WIB</b>.
+          Sistem hanya menampilkan waktu kosong, bukan detail jadwal pribadi.
+        `;
+
+        box.style.display = "block";
+        box.scrollIntoView({behavior:"smooth", block:"center"});
+      }, 1000);
+    }
+
+    function toggleChat(){
+      const panel = document.getElementById("chat-panel");
+      panel.style.display = panel.style.display === "flex" ? "none" : "flex";
+    }
+
+    function sendMessage(){
+      const input = document.getElementById("chat-input");
+      const body = document.getElementById("chat-body");
+      const text = input.value.trim();
+
+      if(!text) return;
+
+      body.innerHTML += `<div class="msg user">${escapeHtml(text)}</div>`;
+      input.value = "";
+
+      setTimeout(() => {
+        body.innerHTML += `<div class="msg bot">${aiReply(text)}</div>`;
+        body.scrollTop = body.scrollHeight;
+      }, 450);
+
+      body.scrollTop = body.scrollHeight;
+    }
+
+    function aiReply(text){
+      const query = text.toLowerCase();
+
+      if(query.includes("krs")){
+        return "KRS bisa dibuka melalui menu KRS & Perwalian atau Pengisian Rencana Studi. Sistem akan memvalidasi SKS, prasyarat, dan bentrok jadwal.";
+      }
+
+      if(query.includes("bayar") || query.includes("tagihan") || query.includes("keuangan")){
+        return "Tagihan aktif sebesar Rp 8.500.000. Buka Layanan Keuangan > Tagihan Perkuliahan untuk membuat nomor Virtual Account.";
+      }
+
+      if(query.includes("nilai") || query.includes("ips")){
+        return "Riwayat nilai tersedia pada Informasi Akademik > Riwayat Nilai & IPK. Data sensitif dapat disensor dengan tombol mata.";
+      }
+
+      if(query.includes("jadwal")){
+        return "Jadwal kuliah tersedia pada Informasi Akademik > Jadwal Kuliah. Kamu juga bisa memakai Smart Social Schedule Matcher.";
+      }
+
+      if(query.includes("kuesioner")){
+        return "Kuesioner tersedia pada menu My Academic Asli > Kuesioner. Menampilkan status sudah/belum diisi.";
+      }
+
+      if(query.includes("wisuda")){
+        return "Menu Syarat Wisuda menampilkan checklist SKS, nilai E, TA/Skripsi, dan administrasi, lengkap dengan arahan lanjutan.";
+      }
+
+      if(query.includes("kehadiran")){
+        return "Kehadiran perkuliahan menampilkan hadir, izin/sakit, tanpa keterangan, dan persentase kehadiran.";
+      }
+
+      if(query.includes("kurikulum")){
+        return "Kurikulum menampilkan mata kuliah berdasarkan semester dan status wajib/pilihan.";
+      }
+
+      return "Saya bisa membantu tentang KRS, jadwal, nilai, keuangan, kuesioner, wisuda, kehadiran, kurikulum, dan aktivitas mahasiswa.";
+    }
+
+    function escapeHtml(str){
+      return str.replace(/[&<>"']/g, match => ({
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#039;"
+      }[match]));
+    }
+
+    function showToast(message){
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.style.display = "block";
+
+      clearTimeout(window.toastTimer);
+
+      window.toastTimer = setTimeout(() => {
+        toast.style.display = "none";
+      }, 2300);
+    }
+
+    document.addEventListener("keydown", event => {
+      if(event.key === "Escape"){
+        closeInfoModal();
+        closePaymentModal();
+        hideLoading();
+        document.getElementById("search-results").style.display = "none";
+      }
+    });
+
+    document.addEventListener("click", event => {
+      if(!event.target.closest(".search-wrap")){
+        document.getElementById("search-results").style.display = "none";
+      }
+    });
+
+    gantiKontenAkademik("dashboard");
+  </script>
+</body>
+</html>
